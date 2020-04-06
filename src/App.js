@@ -1,25 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from "react";
+import styled from "styled-components";
+import { Route, Switch } from "react-router-dom";
+
+import { projects } from "./constants/projects";
+import Start from "./views/Start";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Suspense fallback={() => <div>loading...</div>}>
+      <Switch>
+        {projects.map((p) => (
+          <Route
+            key={`route-${p.path}`}
+            path={p.path}
+            component={p.component}
+          />
+        ))}
+        <Route path="/" component={Start} />
+      </Switch>
+    </Suspense>
   );
 }
 
